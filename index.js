@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require("express");
 const cors = require("cors");
 require('dotenv').config();
@@ -44,11 +44,19 @@ async function run() {
             res.send(result);
         });
 
-        // load data by search query
+        // get data by search query
         app.get("/toysSearch", async (req, res) => {
             const searchText = req.query.search;
             const query = { toyName: searchText };
             const result = await toysCollection.find(query).toArray();
+            res.send(result);
+        });
+
+        // get single toy data
+        app.get("/toy/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await toysCollection.findOne(query);
             res.send(result);
         });
 
