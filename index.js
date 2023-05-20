@@ -38,8 +38,9 @@ async function run() {
         });
 
         // get all toys data
-        app.get("/toys", async (rea, res) => {
-            const result = await reviewsCollection.find().toArray();
+        app.get("/toys", async (req, res) => {
+            const limit = req.query.limit;
+            const result = await toysCollection.find().limit(parseInt(limit)).toArray();
             res.send(result);
         });
 
