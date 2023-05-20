@@ -30,10 +30,16 @@ async function run() {
         const toysCollection = client.db("toyMarketplace").collection("toys");
         const reviewsCollection = client.db("toyMarketplace").collection("reviews");
 
-        // post single data
+        // post toys single data
         app.post("/toys", async (req, res) => {
             const toy = req.body;
             const result = await toysCollection.insertOne(toy);
+            res.send(result);
+        });
+
+        // get all toys data
+        app.get("/toys", async (rea, res) => {
+            const result = await reviewsCollection.find().toArray();
             res.send(result);
         });
 
