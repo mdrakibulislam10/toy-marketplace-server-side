@@ -28,6 +28,7 @@ async function run() {
 
         // collections
         const toysCollection = client.db("toyMarketplace").collection("toys");
+        const reviewsCollection = client.db("toyMarketplace").collection("reviews");
 
         // post single data
         app.post("/toys", async (req, res) => {
@@ -44,6 +45,15 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         });
+
+        // post reviews
+        app.post("/reviews", async (req, res) => {
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
+            res.send(result);
+        });
+
+       
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
