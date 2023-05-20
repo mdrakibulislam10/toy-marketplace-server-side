@@ -44,6 +44,14 @@ async function run() {
             res.send(result);
         });
 
+        // load data by search query
+        app.get("/toysSearch", async (req, res) => {
+            const searchText = req.query.search;
+            const query = { toyName: searchText };
+            const result = await toysCollection.find(query).toArray();
+            res.send(result);
+        });
+
         // get data by sub category name
         app.get("/toys/:subCategoryName", async (req, res) => {
             const subCategoryName = req.params.subCategoryName;
