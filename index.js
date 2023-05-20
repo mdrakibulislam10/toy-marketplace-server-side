@@ -26,9 +26,15 @@ async function run() {
         // await client.connect();
         client.connect();
 
-        app.get("/fw", (req, res) => {
-            res.send("jjjj")
-        })
+        // collections
+        const toysCollection = client.db("toyMarketplace").collection("toys");
+
+        // post single data
+        app.post("/toys", async (req, res) => {
+            const toy = req.body;
+            const result = await toysCollection.insertOne(toy);
+            res.send(result);
+        });
 
 
         // Send a ping to confirm a successful connection
