@@ -71,13 +71,27 @@ async function run() {
 
         // get specific data with email
         app.get("/usersToys", async (req, res) => {
+            const sortType = req.query.sortType;
+            console.log(sortType);
+
             let query = {};
             if (req.query.email) {
                 query = { sellerEmail: req.query.email };
             }
-            const result = await toysCollection.find(query).toArray();
+
+            let result = [];
+            if (sortType === "ascending") {
+                result = await toysCollection.find(query).toArray();
+                result.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+            } else if (sortType === "descending") {
+                result = await toysCollection.find(query).toArray();
+                result.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+            } else {
+                result = await toysCollection.find(query).toArray();
+            }
             res.send(result);
         });
+
 
         // get data for edit
         app.get("/editToy/:id", async (req, res) => {
