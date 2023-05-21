@@ -83,10 +83,12 @@ async function run() {
             if (sortType === "ascending") {
                 result = await toysCollection.find(query).toArray();
                 result.sort((a, b) => parseInt(a.price) - parseInt(b.price));
-            } else if (sortType === "descending") {
+            }
+            else if (sortType === "descending") {
                 result = await toysCollection.find(query).toArray();
                 result.sort((a, b) => parseInt(b.price) - parseInt(a.price));
-            } else {
+            }
+            else {
                 result = await toysCollection.find(query).toArray();
             }
             res.send(result);
