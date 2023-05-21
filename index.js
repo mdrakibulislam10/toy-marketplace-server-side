@@ -47,9 +47,12 @@ async function run() {
         // get data by search query
         app.get("/toysSearch", async (req, res) => {
             const searchText = req.query.search;
-            const query = { toyName: searchText };
-            const result = await toysCollection.find(query).toArray();
-            res.send(result);
+
+            const allToys = await toysCollection.find().toArray();
+            const toys = allToys.filter(toy => toy.toyName && toy.toyName.toLowerCase().includes(searchText.toLowerCase()));
+            // console.log(allToys);
+
+            res.send(toys);
         });
 
         // get single toy data
