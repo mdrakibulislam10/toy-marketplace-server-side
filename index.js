@@ -79,6 +79,30 @@ async function run() {
             res.send(result);
         });
 
+        // get data for edit
+        app.get("/editToy/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await toysCollection.findOne(query);
+            res.send(result);
+        });
+
+        // update / patch toy info
+        app.patch("/updateToy/:id", async (req, res) => {
+            const id = req.params.id;
+            const toyInfo = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updateToy = {
+                $set: {
+                    price: toyInfo?.price,
+                    quantity: toyInfo?.quantity,
+                    description: toyInfo?.description,
+                },
+            };
+            const result = await toysCollection.updateOne(filter, updateToy);
+            res.send(result);
+        });
+
         // post reviews
         app.post("/reviews", async (req, res) => {
             const review = req.body;
